@@ -1,0 +1,2 @@
+# Nostron
+Prototype Nostr client 
