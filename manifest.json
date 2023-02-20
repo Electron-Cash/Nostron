@@ -1,0 +1,11 @@
+{
+    "display_name": "Nostron",
+    "version": "1.0",
+    "description": "Prototype Nostr Client",
+    "project_url": "https://electroncash.org/",
+    "minimum_ec_version": "4.0",
+    "package_name": "nostron_plugin",
+    "available_for": [
+        "qt"
+    ]
+}
