@@ -4,11 +4,16 @@ from enum import Enum
 import json
 import logging
 from json import JSONDecodeError
-import secp256k1
+
+# DONT IMPORT THIS. USE PURE PYTHON.
+#import secp256k1
+
 import hashlib
+import os
+ 
 from monstr.util import util_funcs
 from monstr.encrypt import SharedEncrypt
-
+from monstr.bip340 import schnorr_sign
 
 class EventTags:
     """
@@ -265,19 +270,22 @@ class Event:
             as else the sig we give won't be as expected
 
         """
+        
         self._get_id()
-
-        # pk = secp256k1.PrivateKey(priv_key)
-        pk = secp256k1.PrivateKey()
-        pk.deserialize(priv_key)
-
-        # sig = pk.ecdsa_sign(self._id.encode('utf-8'))
-        # sig_hex = pk.ecdsa_serialize(sig).hex()
         id_bytes = (bytes(bytearray.fromhex(self._id)))
-        sig = pk.schnorr_sign(id_bytes, bip340tag='', raw=True)
-        sig_hex = sig.hex()
-
-        self._sig = sig_hex
+        
+        # OLD METHOD USING SECP256K1 LIBRARY
+        #pk = secp256k1.PrivateKey()
+        #pk.deserialize(priv_key)
+        #sig = pk.schnorr_sign(id_bytes, bip340tag='', raw=True)
+        #sig_hex = sig.hex()
+        #self._sig = sig_hex
+        
+        # NEW METHOD, USE PURE PYTHON.
+        priv_key_bytes = (bytes(bytearray.fromhex(priv_key)))
+        aux_rand = os.urandom(32)
+        sig2 = schnorr_sign(id_bytes,priv_key_bytes,aux_rand)
+        self._sig = sig2.hex()
 
     def is_valid(self):
         pub_key = secp256k1.PublicKey(bytes.fromhex('02'+self._pub_key),
@@ -505,4 +513,9 @@ class Event:
         if self.id:
             ret =  '%s@%s' % (self.id, self.created_at)
         return ret
+
+
+if __name__ == "__main__":
+    print ("TEST")
+
 

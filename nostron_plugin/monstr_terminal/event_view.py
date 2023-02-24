@@ -17,7 +17,8 @@ from monstr.util import util_funcs
 from monstr.event.event import Event
 from monstr.encrypt import Keys
 from app.post import PostApp
-from cmd_line.util import FormattedEventPrinter
+# PLUGIN DOES NOT USE CMD_LINE LIBRARY BUT WE MIGHT NEED IT LATER.
+#from cmd_line.util import FormattedEventPrinter
 from exception import ConfigException
 
 # defaults if not otherwise given

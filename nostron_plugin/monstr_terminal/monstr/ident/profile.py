@@ -188,7 +188,7 @@ class Profile:
         if not self._pub_k and self._priv_k:
             # this probably should be part of key in encrypt then we can get rid of secp256 from this file
             # pk = secp256k1.PrivateKey(bytes(bytearray.fromhex(self._priv_k)), raw=True)
-
+             
             key_pair = Keys.get_new_key_pair(self._priv_k)
             self._pub_k = key_pair['pub_k'][2:]
 

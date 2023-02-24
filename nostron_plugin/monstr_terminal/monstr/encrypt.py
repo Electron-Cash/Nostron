@@ -4,14 +4,16 @@
 
 # FIXME: chenage to use cipher from cryptography so we dont need both Crypto and cryptography
 import os
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding
-from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives import serialization
-import secp256k1
-import bech32
+#from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+#from cryptography.hazmat.primitives import padding
+#from cryptography.hazmat.primitives.asymmetric import ec
+#from cryptography.hazmat.primitives import serialization
+#import secp256k1
+#import bech32
 from enum import Enum
 
+from . import nostron_bech32 as bech32
+from . import bip340
 
 # TODO: sort something out about the different key formats....
 class KeyEnc(Enum):
@@ -34,16 +36,17 @@ class Keys:
         }
         """
         if priv_key is None:
-            pk = secp256k1.PrivateKey()
+            seckey = os.urandom(32)
         else:
-            pk = secp256k1.PrivateKey(bytes(bytearray.fromhex(priv_key)), raw=True)
-
+            seckey=bytes(bytearray.fromhex(priv_key))
+                    
+        pubkey = bip340.pubkey_gen(seckey)
+        
         return {
-            'priv_k': pk.serialize(),
-            # get rid of 02 prefix that is assumed in monstr
-            'pub_k': pk.pubkey.serialize(compressed=True).hex()[2:]
+            'priv_k': seckey.hex(),
+            'pub_k':pubkey.hex()
         }
-
+             
     @staticmethod
     def is_valid_key(key:str):
         """
@@ -135,6 +138,7 @@ class Keys:
         any reason while you'd supply both
         if no priv_k is supplied the private key methods will just return None
         """
+  
 
         # internal hex format
         self._priv_k= None

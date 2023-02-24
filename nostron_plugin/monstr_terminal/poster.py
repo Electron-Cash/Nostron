@@ -12,7 +12,8 @@ from monstr.ident.alias import ProfileFileAlias
 from monstr.client.client import ClientPool, Client
 from monstr.event.event import Event
 from app.post import PostApp
-from cmd_line.post_loop_app import PostAppGui
+# Plugin doesnt use cmd line library but we might need in the future.
+#from cmd_line.post_loop_app import PostAppGui
 from monstr.encrypt import Keys
 from monstr.util import util_funcs
 from exception import ConfigException

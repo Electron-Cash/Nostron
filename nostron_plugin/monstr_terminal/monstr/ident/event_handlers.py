@@ -4,7 +4,7 @@ if TYPE_CHECKING:
     from monstr.client.client import Client
 from datetime import datetime
 import logging
-from cachetools import TTLCache, LRUCache
+from monstr.cachetools import TTLCache, LRUCache
 from abc import ABC, abstractmethod
 from monstr.ident.profile import Profile, ProfileList, Keys, ContactList
 from monstr.ident.persist import ProfileStoreInterface

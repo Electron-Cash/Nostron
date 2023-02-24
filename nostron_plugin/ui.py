@@ -27,6 +27,7 @@ class Ui(MyTreeWidget, MessageBoxMixin):
         # An initial widget is required.
         MyTreeWidget.__init__(self, parent, self.create_menu, [], 0, [])
 
+        import os.path
         self.my_monstrwrap = monstrwrap(ui_window = self) 
 
         self.chat_history =""
