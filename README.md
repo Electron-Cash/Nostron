@@ -13,9 +13,9 @@ In simple terms, 	[a decentralized social network with a chance of working](http
 
 # How to Install and Run
 
-Then, install the plugin by downloading the [zip file](https://github.com/Electron-Cash/Nostron/blob/main/nostron_plugin.zip), then upload that zipfile to the wallet as follows:  From the top menu, go to Tools--> Installed Plugins. This will open the plugin manager window.  Click "Add plugin" , choose the file from your computer.  Then, check the disclaimer boxes and click Install.
+Install the plugin by downloading the [zip file](https://github.com/Electron-Cash/Nostron/blob/main/nostron_plugin.zip), then upload that zipfile to the wallet as follows:  From the top menu, go to Tools--> Installed Plugins. This will open the plugin manager window.  Click "Add plugin" , choose the file from your computer.  Then, check the disclaimer boxes and click Install.
 
-*for users running from python source code: First install the python dependencies in 
+*Note: For users running from python source code: First install the python dependencies in 
 https://github.com/Electron-Cash/Nostron/blob/main/nostron_plugin/monstr_terminal/requirements.txt with pip install -r requirements.txt*
 
 
@@ -41,8 +41,6 @@ Nostron performs 2 basic functions (posting to relays and fetching from relays),
 2. Nostron should probably use waiting dialogs or other UI interaction to prevent the user from clicking too many times when a network call is being made. Be gentle and wait 10 seconds after posting or refreshing the feed. (When you make a post, the text will intentionally vanish from the input bar when the posting is complete.)
 
 3. Nostron does not gracefully handle having multiple wallet files open at once.  Please only use it with a single wallet file open at a time.
-
-4. The plugin currently only works if you're running Electron Cash from source code because not all the dependencies could be packaged easily.
 
 # Roadmap
 
