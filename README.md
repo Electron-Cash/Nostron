@@ -13,12 +13,11 @@ In simple terms, 	[a decentralized social network with a chance of working](http
 
 # How to Install and Run
 
-This plugin is currently available for users running Electron Cash from python source.  First install the python dependencies in 
-https://github.com/Electron-Cash/Nostron/blob/main/nostron_plugin/monstr_terminal/requirements.txt.  *You can do this with pip install -r requirements.txt*
-
 Then, install the plugin by downloading the [zip file](https://github.com/Electron-Cash/Nostron/blob/main/nostron_plugin.zip), then upload that zipfile to the wallet as follows:  From the top menu, go to Tools--> Installed Plugins. This will open the plugin manager window.  Click "Add plugin" , choose the file from your computer.  Then, check the disclaimer boxes and click Install.
 
-In the near future, we hope to provide a universal plugin for desktop users, or at least a branch-derived executable.
+*for users running from python source code: First install the python dependencies in 
+https://github.com/Electron-Cash/Nostron/blob/main/nostron_plugin/monstr_terminal/requirements.txt with pip install -r requirements.txt*
+
 
 # How to Use
 
