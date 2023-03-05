@@ -13,17 +13,17 @@ async def fetch_events(relays=None,authors=None,MaxItems=200):
     :param relay:
     :return:
     """
-   
+    
     if relays is None or authors is None:
         return
-        
-    
+    events = []
+    all_events = []
     my_query={"limit": MaxItems,"authors": authors}
-    async with ClientPool(relays) as c:
-        events = await c.query(my_query)
-     
-    
-    return events
+    for relay in relays:
+        async with Client(relay) as c:
+            events = await c.query(my_query)
+            all_events = all_events + events
+    return all_events
  
    
 
