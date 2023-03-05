@@ -20,9 +20,12 @@ async def fetch_events(relays=None,authors=None,MaxItems=200):
     all_events = []
     my_query={"limit": MaxItems,"authors": authors}
     for relay in relays:
-        async with Client(relay) as c:
-            events = await c.query(my_query)
-            all_events = all_events + events
+        try:
+            async with Client(relay) as c:
+                events = await c.query(my_query)
+                all_events = all_events + events
+        except:
+            pass
     return all_events
  
    
