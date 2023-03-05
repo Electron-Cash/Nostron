@@ -133,7 +133,6 @@ class Client:
                     await self.get_relay_information()
 
                 async with websockets.connect(self._url,
-                                              open_timeout=self._timeout,
                                               close_timeout=self._timeout,
                                               ping_interval=self._ping_timeout,
                                               ping_timeout=self._ping_timeout) as ws:

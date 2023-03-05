@@ -50,7 +50,7 @@ class ProfileEventHandlerInterface(ABC):
     def create_missing(self, pub_k):
         # use to return a placeholder profile
         return Profile(pub_k=pub_k,
-                       update_at=datetime(1970, 1, 1),
+                       update_at=datetime(1971, 1, 1),
                        attrs={})
 
     def __contains__(self, item):
@@ -143,7 +143,7 @@ class ProfileEventHandler(ProfileEventHandlerInterface):
             ret = self._cache[pub_k]
         elif create_missing and Keys.hex_key(pub_k):
             ret = Profile(pub_k=pub_k,
-                          update_at=datetime(1970, 1, 1),
+                          update_at=datetime(1971, 1, 1),
                           attrs={
                               'name': 'not found'
                           })
