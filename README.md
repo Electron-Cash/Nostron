@@ -36,11 +36,9 @@ Nostron performs 2 basic functions (posting to relays and fetching from relays),
 
 # Known Issues
 
-1. Nostron does only a reasonable job dealing with bad relays when posting and listening.  Hopefully, a bad relay won't cause the whole app to crash, but you may get mixed results in terms of not all posts or queries may happen consistently on all relays -- for example, if the relay is overloaded, it may not respond in time.
+1. Nostron should probably use waiting dialogs or other UI interaction to prevent the user from clicking too many times when a network call is being made. Be gentle and wait 10 seconds after posting or refreshing the feed. (When you make a post, the text will intentionally vanish from the input bar when the posting is complete.)
 
-2. Nostron should probably use waiting dialogs or other UI interaction to prevent the user from clicking too many times when a network call is being made. Be gentle and wait 10 seconds after posting or refreshing the feed. (When you make a post, the text will intentionally vanish from the input bar when the posting is complete.)
-
-3. Nostron does not gracefully handle having multiple wallet files open at once.  Please only use it with a single wallet file open at a time.
+2. Nostron does not gracefully handle having multiple wallet files open at once.  Please only use it with a single wallet file open at a time.
 
 # Roadmap
 
