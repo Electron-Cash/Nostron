@@ -41,7 +41,7 @@ def get_shared_key(private_key, public_key):
     kdf = Hkdf(unhexlify(salt.hex()), shared_secret, hash=hashlib.sha512)
    
     # Generate the key. 32 bytes = 256 bits
-    key = kdf.expand(b"context1", 32)
+    key = kdf.expand(b"nostr1", 32)
     
     # Return the key
     return key
