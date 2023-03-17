@@ -275,13 +275,17 @@ async def get_poster(client: Client,
     }
 
 
+ 
+
 async def post_single(relays: [str],
                       user_k: Keys,
                       to_users_k: Keys,
                       inbox_k: Keys,
                       is_encrypt: bool,
                       subject: str,
-                      message: str):
+                      message: str,
+                      e_tag=None,
+                      kind = None):
     async with ClientPool(relays,timeout=10) as client:
         post_env = await get_poster(client=client,
                                     user_k=user_k,
@@ -301,8 +305,10 @@ async def post_single(relays: [str],
                        subject=subject,
                        public_inbox=inboxes,
                        msg=message)
-
-        post_app.do_post(msg=message)
+        if kind == 42:
+            post_app.do_post42(msg=message,e_tag = e_tag)
+        else:
+            post_app.do_post(msg=message)
         await asyncio.sleep(1)
 
 
@@ -387,7 +393,7 @@ async def post_loop(relays: [str],
         await my_gui.run()
 
 
-async def run_post(post_message,post_relay,priv_k):
+async def run_post(post_message,post_relay,priv_k,e_tag=None,kind=None):
     opts = get_options()
     
     user = opts['user']
@@ -427,7 +433,9 @@ async def run_post(post_message,post_relay,priv_k):
                               inbox_k=inbox_keys,
                               is_encrypt=opts['is_encrypt'],
                               subject=opts['subject'],
-                              message=post_message
+                              message=post_message,
+                              e_tag= e_tag,
+                              kind = kind
                               )
         else:
             await post_loop(relays=opts['relay'],

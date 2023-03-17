@@ -86,7 +86,10 @@ class Plugin(BasePlugin):
         self.wallet_payment_tabs[wallet_name] = tab
         self.wallet_payment_lists[wallet_name] = l
         window.tabs.addTab(tab, QIcon(":icons/preferences.png"), _('Nostron'))
-
+        from .groupchat import Ui2
+        l2 = Ui2(window, self, wallet_name)
+        tab2 = window.create_list_tab(l2)
+        window.tabs.addTab(tab2, QIcon(":icons/preferences.png"), _('Group Chat'))
     def remove_ui_for_wallet(self, wallet_name, window):
 
         wallet_tab = self.wallet_payment_tabs.get(wallet_name, None)
