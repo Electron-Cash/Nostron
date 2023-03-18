@@ -307,6 +307,8 @@ async def post_single(relays: [str],
                        msg=message)
         if kind == 42:
             post_app.do_post42(msg=message,e_tag = e_tag)
+        elif kind == 40:
+            post_app.do_post40(msg=message)
         else:
             post_app.do_post(msg=message)
         await asyncio.sleep(1)

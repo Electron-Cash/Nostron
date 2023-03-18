@@ -12,7 +12,6 @@ from electroncash.util import print_error
 
 import sys
 import time
-from time import sleep
 import os
 sys.path.insert(0,os.path.join(os.path.dirname(__file__),'monstr_terminal'))
 
@@ -89,7 +88,18 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
         self.check_available_group_chats_button.clicked.connect(self.fetch_group_chats)
         hbox10=QHBoxLayout()
         hbox10.addWidget(self.check_available_group_chats_button)
+        
+        
+        self.create_new_group_button = QPushButton(_("CREATE NEW GROUP"))
+        
+        self.create_new_group_button.clicked.connect(self.new_group_dialog)
+        hbox11=QHBoxLayout()
+        hbox11.addWidget(self.create_new_group_button)
+        
+        
         vbox8.addLayout(hbox10)
+        
+        vbox8.addLayout(hbox11)
         
         label20 = QLabel(_("Group Chat:"))
         label20.setAlignment(Qt.AlignCenter)
@@ -173,6 +183,32 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
         self.auto_refresh_chat()
         self.timer.start(5000)
  
+    def new_group_dialog(self):
+        # This function creates a dialog window for creating a new group
+        d = WindowModalDialog(self.top_level_window(), _("Create New Group"))
+        vbox = QVBoxLayout(d) 
+        grid = QGridLayout()
+        line1 = QLineEdit()
+        line1.setFixedWidth(350)
+        line2 = QLineEdit()
+        line2.setFixedWidth(350) 
+        
+        grid.addWidget(QLabel(_("Name")), 1, 0)
+        grid.addWidget(line1, 1, 1)
+        
+        grid.addWidget(QLabel(_("Description")), 2, 0)
+        grid.addWidget(line2, 2, 1)
+        
+        
+        vbox.addLayout(grid)
+        vbox.addLayout(Buttons(CancelButton(d), OkButton(d)))
+        if d.exec_():
+            name = line1.text().strip()[0:100]
+            about = line2.text().strip()[0:100]
+            self.send_nostr_kind40_msg(name,about)
+            
+  
+ 
     def group_chat_anchor_clicked(self,arg1):
       
         group_id_and_name = arg1.url()
@@ -236,6 +272,45 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
 
     def on_update(self):
         pass
+        
+        
+    def send_nostr_kind40_msg(self,name,about):
+        # This function sends a message to the network 
+        
+        if '"' in name or '\\' in name or '"' in about or '\\' in about:
+            
+                self.show_error("Inavlid characters in name or description.")
+                return
+        
+        
+        post_message = '{"name": "'+str(name).strip()+'", "about": "'+str(about).strip()+'", "picture": ""}'
+         
+        # Get the Relays
+        post_relay_list = []
+        counter = 0
+        relays = self.parent.wallet.storage.get('nostron_chosen_relay') 
+        if relays is None:
+            return
+        single_relay=relays.get('chosen_relay')
+        post_relay_list.append(single_relay)
+                   
+        confirm_msg="Create group "+name+" on "+single_relay+" ?"
+        if self.question(confirm_msg):
+            # Get the private key
+            privkey=""           
+            my_alias_list = self.parent.wallet.storage.get('nostron_aliases')
+            chosen_alias = self.parent.wallet.storage.get('nostron_chosen_alias')
+            chosen_alias_name = chosen_alias.get('chosen_alias')
+            for i in my_alias_list:
+                alias_name = i.get('alias') 
+                if alias_name == chosen_alias_name:
+                    privkey=i.get('privkey')
+            e_tag = None
+            try:
+                asyncio.run(self.my_monstrwrap.Terminal.poster.run_post(post_message=post_message,post_relay=post_relay_list,priv_k=privkey,e_tag=e_tag,kind=40))
+            except:
+                self.show_error("One or more relays failed to post.") 
+        
         
     def send_nostr_kind42_msg(self):
         # This function sends a message to the network 
@@ -509,7 +584,6 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
     def process_refresh_feed_message(self,incoming_message): 
         self.event_view_area.setText(incoming_message)
           
-        sleep(1)
         self.event_view_area.verticalScrollBar().setValue(self.event_view_area.verticalScrollBar().maximum()-1)
         
                             

@@ -180,7 +180,42 @@ class PostApp:
     def set_on_message(self, callback):
         self._on_msg = callback
 
+    def do_post40(self, msg):
+        for evt in self.make_post40(msg):
+            self._client.publish(evt)
 
+    def make_post40(self, msg) -> Event:
+        """
+        makes post events, a single event if plaintext or 1 per to_user if encrypted
+        :param public_inbox:
+        :param as_user:
+        :param msg:
+        :param to_users:
+        :param is_encrypt:
+        :param subject:
+        :return:
+        """
+
+        tags = []
+        if self._to_users:
+            tags = [['p', p.public_key] for p in self._to_users]
+
+        if self._subject is not None:
+            tags.append(['subject', self._subject])
+ 
+        if not self._is_encrypt:
+            evt = Event(kind=Event.KIND_CHANNEL_CREATE,
+                        content=msg,
+                        pub_key=self._as_user.public_key,
+                        tags=tags)
+
+            evt.sign(self._as_user.private_key)
+            if self._public_inbox:
+                evt = self._inbox_wrap(evt)
+            post = [evt]
+
+        return post
+        
     def do_post42(self, msg,e_tag):
         for evt in self.make_post42(msg,e_tag):
             self._client.publish(evt)
