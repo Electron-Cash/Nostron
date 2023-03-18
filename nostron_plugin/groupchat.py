@@ -217,6 +217,8 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
     def fetch_group_messages(self,group_id_and_name):
         # EXPECT A STRING WITH A SEPERATOR '---SEPERATOR---'
         chosen_relay_dict = self.parent.wallet.storage.get('nostron_chosen_relay')
+        if chosen_relay_dict is None:
+            return
         chosen_relay_name = chosen_relay_dict.get('chosen_relay')
         relay_list= []
         relay_list.append(str(chosen_relay_name))
@@ -393,8 +395,12 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
     def update_chat_label_info(self):
 
         chosen_relay_dict = self.parent.wallet.storage.get('nostron_chosen_relay')
+        if chosen_relay_dict is None:
+            return
         chosen_relay_name = chosen_relay_dict.get('chosen_relay')
         chosen_alias_dict = self.parent.wallet.storage.get('nostron_chosen_alias')
+        if chosen_alias_dict is None:
+            return
         chosen_alias_name = chosen_alias_dict.get('chosen_alias')
         
         my_label = ""
