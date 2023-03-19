@@ -181,7 +181,7 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
     def restartTimer(self):
     
         self.auto_refresh_chat()
-        self.timer.start(5000)
+        self.timer.start(15000)
  
     def new_group_dialog(self):
         # This function creates a dialog window for creating a new group
