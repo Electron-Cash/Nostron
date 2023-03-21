@@ -62,8 +62,8 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
         hbox22=QHBoxLayout()
         hbox22.addWidget(label22)
         vbox8.addLayout(hbox22)
-        self.current_group_id = ""
-        self.current_group_name= ""
+        self.current_group_id = None
+        self.current_group_name= None
         self.group_chat_listings_area= QTextBrowser()
          
         self.group_chat_listings_area.setOpenLinks(False)
