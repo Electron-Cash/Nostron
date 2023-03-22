@@ -490,9 +490,11 @@ class Ui2(MyTreeWidget, MessageBoxMixin):
         my_friend_list = self.parent.wallet.storage.get('nostron_friends')
         # Include our own aliases too...
         my_alias_list = self.parent.wallet.storage.get('nostron_aliases')
-        my_friend_list = my_friend_list + my_alias_list
         if my_friend_list is None:
-            pass
+            my_friend_list = []
+        if my_alias_list is None:
+            my_alias_list = []
+        my_friend_list = my_friend_list + my_alias_list
         for i in my_friend_list:
             pubkey=i.get('pubkey')          
             authors_list.append(pubkey)
